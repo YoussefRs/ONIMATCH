@@ -21,21 +21,21 @@ export interface BusinessProfile extends User {
   previousCollaborations?: CollaborationHistory[];
 }
 
-export interface InfluencerProfile extends User {
-  role: 'influencer';
-  niche: string[];
-  bio: string;
-  socialMedia: SocialMediaAccount[];
-  audienceSize: number;
-  audienceDemographics: AudienceDemographic[];
-  engagementRate: number;
-  previousCollaborations?: CollaborationHistory[];
-  pricing?: {
-    postRate?: number;
-    storyRate?: number;
-    videoRate?: number;
-  };
-}
+// export interface InfluencerProfile extends User {
+//   role: 'influencer';
+//   niche: string[];
+//   bio: string;
+//   socialMedia: SocialMediaAccount[];
+//   audienceSize: number;
+//   audienceDemographics: AudienceDemographic[];
+//   engagementRate: number;
+//   previousCollaborations?: CollaborationHistory[];
+//   pricing?: {
+//     postRate?: number;
+//     storyRate?: number;
+//     videoRate?: number;
+//   };
+// }
 
 export interface SocialMediaAccount {
   platform: string;
