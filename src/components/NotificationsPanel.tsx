@@ -71,7 +71,7 @@ export function NotificationsPanel({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-white">
           <div className="flex items-center gap-2 mb-6">
             <Bell className="h-5 w-5 text-[#3A1A7E]" />
             <h2 className="text-xl font-semibold">Match Requests</h2>
@@ -84,7 +84,7 @@ export function NotificationsPanel({
               </div>
             ) : (
               matches.map((match) => (
-                <div key={match.id} className="bg-gray-50 rounded-lg p-4">
+                <div key={match.id} className="bg-gray-100 border rounded-lg p-4">
                   <div className="flex items-start gap-4">
                     <Avatar
                       src="https://images.pexels.com/photos/5698851/pexels-photo-5698851.jpeg?auto=compress&cs=tinysrgb&w=300"

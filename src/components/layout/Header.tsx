@@ -71,29 +71,16 @@ const Header: React.FC = () => {
                   </Link>
                 )}
                 {currentUser.role === "influencer" && (
-                  <>
-                    <Link
-                      to="/opportunities"
-                      className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
-                        isActive("/opportunities")
-                          ? "text-[#00F5FF]"
-                          : "text-white"
-                      }`}
-                    >
-                      Opportunities
-                    </Link>
-
-                    <Button
-                      variant="outline"
-                      className="relative"
-                      onClick={() => setIsNotificationsOpen(true)}
-                    >
-                      <Bell className="h-5 w-5" />
-                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                        2
-                      </span>
-                    </Button>
-                  </>
+                  <Link
+                    to="/opportunities"
+                    className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
+                      isActive("/opportunities")
+                        ? "text-[#00F5FF]"
+                        : "text-white"
+                    }`}
+                  >
+                    Opportunities
+                  </Link>
                 )}
                 <Link
                   to="/matches"
@@ -145,6 +132,19 @@ const Header: React.FC = () => {
                     </div>
                   )}
                 </div>
+                {currentUser.role === "influencer" && (
+                  <>
+                    <Button
+                      className="relative"
+                      onClick={() => setIsNotificationsOpen(true)}
+                    >
+                      <Bell className="h-5 w-5" />
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        2
+                      </span>
+                    </Button>
+                  </>
+                )}
               </>
             )}
 
@@ -308,7 +308,7 @@ const Header: React.FC = () => {
         </div>
       )}
 
-<NotificationsPanel
+      <NotificationsPanel
         isOpen={isNotificationsOpen}
         onClose={() => setIsNotificationsOpen(false)}
         influencerId="inf1"
