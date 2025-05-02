@@ -7,7 +7,8 @@ import Avatar from '../../components/ui/Avatar';
 import Badge from '../../components/ui/Badge';
 import { mockBusinessProfiles, mockMatches, mockPayments, mockAnalyticsData } from '../../data/mockData';
 import { DollarSign, MessageSquare, Briefcase, Target, TrendingUp, Bell, ChevronRight } from 'lucide-react';
-import { InfluencerProfile, BusinessProfile } from '../../types';
+import {  BusinessProfile } from '../../types';
+import { InfluencerProfile } from '../../types/influencer';
 
 const InfluencerDashboard: React.FC = () => {
   const { currentUser } = useAuth();
@@ -327,6 +328,8 @@ const InfluencerDashboard: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      
     </div>
   );
 };

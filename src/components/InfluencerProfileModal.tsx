@@ -1,11 +1,13 @@
 import React from 'react';
-import { BarChart3, Calendar, Check, Clock, ExternalLink, Globe, Instagram, Linkedin, Mail, MapPin, MessageCircle, BookText as TikTok, Twitter, Users, Youtube } from 'lucide-react';
-import { InfluencerProfile } from '../types/influencer';
-import Badge from './ui/Badge';
-import Avatar from './ui/Avatar';
-import Button from './ui/Button';
 import { Dialog, DialogContent } from './ui/Dialog';
+import { BarChart3, Calendar, Check, Clock, ExternalLink, Globe, Mail, MapPin, MessageCircle, Users } from 'lucide-react';
+import { InfluencerProfile } from '../types/influencer';
 import { getSocialIcon } from '../utils/socialIcons';
+import { createMatch, getMatches } from '../lib/api';
+import { toast } from 'sonner';
+import Avatar from './ui/Avatar';
+import Badge from './ui/Badge';
+import Button from './ui/Button';
 
 interface InfluencerProfileModalProps {
   isOpen: boolean;
@@ -21,6 +23,24 @@ export function InfluencerProfileModal({
   if (!influencer) return null;
 
   const topPlatform = influencer.socialMedia.sort((a, b) => b.followers - a.followers)[0];
+
+  const handleMatch = async () => {
+    try {
+      const matches = await getMatches();
+      const existingMatch = matches.find(m => m.influencerId === influencer.id);
+      
+      if (existingMatch) {
+        toast.error('You have already sent a match request to this influencer');
+        return;
+      }
+
+      await createMatch(influencer.id);
+      toast.success(`Match request sent to ${influencer.name}!`);
+      onClose();
+    } catch (error) {
+      toast.error('Failed to send match request. Please try again.');
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -39,9 +59,9 @@ export function InfluencerProfileModal({
               <h2 className="text-2xl font-bold mb-2">{influencer.name}</h2>
               <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-3">
                 {influencer.niche.map((tag, index) => (
-                  <Badge key={index}
-                  //  variant="outline" 
-                   className="bg-white/10 text-white border-white/20">
+                  <Badge key={index} 
+                  // variant="outline" 
+                  className="bg-white/10 text-white border-white/20">
                     {tag}
                   </Badge>
                 ))}
@@ -234,9 +254,13 @@ export function InfluencerProfileModal({
             <section className="bg-gradient-to-br from-[#2A0A5E] to-[#3A1A7E] rounded-lg shadow-sm p-5 text-white">
               <h3 className="text-lg font-semibold mb-4">Contact {influencer.name.split(' ')[0]}</h3>
               <div className="space-y-3">
-                <Button variant="secondary" className="w-full bg-white hover:bg-gray-100 text-[#3A1A7E]">
-                  <Mail className="mr-2 h-4 w-4" /> 
-                  Send Message
+                <Button 
+                  variant="secondary" 
+                  className="w-full bg-white hover:bg-gray-100 text-[#3A1A7E]"
+                  onClick={handleMatch}
+                >
+                  <Check className="mr-2 h-4 w-4" /> 
+                  Match with {influencer.name.split(' ')[0]}
                 </Button>
                 <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
                   <MessageCircle className="mr-2 h-4 w-4" /> 

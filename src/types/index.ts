@@ -7,6 +7,11 @@ export interface User {
   role: UserRole;
   avatar?: string;
   createdAt: Date;
+  niche: string[];
+  bio: string;
+  socialMedia: SocialMediaAccount[];
+  audienceSize: number;
+  engagementRate: number;
 }
 
 export interface BusinessProfile extends User {
@@ -27,8 +32,8 @@ export interface BusinessProfile extends User {
 //   bio: string;
 //   socialMedia: SocialMediaAccount[];
 //   audienceSize: number;
-//   audienceDemographics: AudienceDemographic[];
 //   engagementRate: number;
+//   audienceDemographics: AudienceDemographic[];
 //   previousCollaborations?: CollaborationHistory[];
 //   pricing?: {
 //     postRate?: number;

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import Button from '../ui/Button';
-import Avatar from '../ui/Avatar';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import Button from "../ui/Button";
+import Avatar from "../ui/Avatar";
+import { Bell } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { NotificationsPanel } from "../NotificationsPanel";
 
 const Header: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -18,7 +20,7 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   const toggleMenu = () => {
@@ -29,13 +31,17 @@ const Header: React.FC = () => {
     setIsProfileOpen(!isProfileOpen);
   };
 
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
   return (
     <header className="bg-gradient-to-r from-[#2A0A5E] to-[#3A1A7E] text-white shadow-md sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-2xl font-bold bg-gradient-to-r from-white to-[#00F5FF] bg-clip-text text-transparent mr-1">ONI</span>
+              <span className="text-2xl font-bold bg-gradient-to-r from-white to-[#00F5FF] bg-clip-text text-transparent mr-1">
+                ONI
+              </span>
               <span className="text-[#00F5FF]">Match</span>
             </Link>
           </div>
@@ -47,35 +53,52 @@ const Header: React.FC = () => {
                 <Link
                   to="/dashboard"
                   className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
-                    isActive('/dashboard') ? 'text-[#00F5FF]' : 'text-white'
+                    isActive("/dashboard") ? "text-[#00F5FF]" : "text-white"
                   }`}
                 >
                   Dashboard
                 </Link>
-                {currentUser.role === 'business' && (
+                {currentUser.role === "business" && (
                   <Link
                     to="/find-influencers"
                     className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
-                      isActive('/find-influencers') ? 'text-[#00F5FF]' : 'text-white'
+                      isActive("/find-influencers")
+                        ? "text-[#00F5FF]"
+                        : "text-white"
                     }`}
                   >
                     Find Influencers
                   </Link>
                 )}
-                {currentUser.role === 'influencer' && (
-                  <Link
-                    to="/opportunities"
-                    className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
-                      isActive('/opportunities') ? 'text-[#00F5FF]' : 'text-white'
-                    }`}
-                  >
-                    Opportunities
-                  </Link>
+                {currentUser.role === "influencer" && (
+                  <>
+                    <Link
+                      to="/opportunities"
+                      className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
+                        isActive("/opportunities")
+                          ? "text-[#00F5FF]"
+                          : "text-white"
+                      }`}
+                    >
+                      Opportunities
+                    </Link>
+
+                    <Button
+                      variant="outline"
+                      className="relative"
+                      onClick={() => setIsNotificationsOpen(true)}
+                    >
+                      <Bell className="h-5 w-5" />
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        2
+                      </span>
+                    </Button>
+                  </>
                 )}
                 <Link
                   to="/matches"
                   className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
-                    isActive('/matches') ? 'text-[#00F5FF]' : 'text-white'
+                    isActive("/matches") ? "text-[#00F5FF]" : "text-white"
                   }`}
                 >
                   Matches
@@ -83,7 +106,7 @@ const Header: React.FC = () => {
                 <Link
                   to="/analytics"
                   className={`text-sm font-medium transition-colors duration-200 hover:text-[#00F5FF] ${
-                    isActive('/analytics') ? 'text-[#00F5FF]' : 'text-white'
+                    isActive("/analytics") ? "text-[#00F5FF]" : "text-white"
                   }`}
                 >
                   Analytics
@@ -93,17 +116,17 @@ const Header: React.FC = () => {
                     onClick={toggleProfile}
                     className="flex items-center text-sm font-medium focus:outline-none"
                   >
-                    <Avatar 
-                      src={currentUser.avatar} 
-                      alt={currentUser.name} 
-                      size="sm" 
-                      fallback={currentUser.name} 
+                    <Avatar
+                      src={currentUser.avatar}
+                      alt={currentUser.name}
+                      size="sm"
+                      fallback={currentUser.name}
                       className="mr-2"
                     />
                     <span className="mr-1">{currentUser.name}</span>
                     <ChevronDown size={16} />
                   </button>
-                  
+
                   {isProfileOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
                       <Link
@@ -124,11 +147,15 @@ const Header: React.FC = () => {
                 </div>
               </>
             )}
-            
+
             {!currentUser && (
               <div className="flex items-center space-x-4">
                 <Link to="/login">
-                  <Button variant="outline" size="sm" className="border-[#00F5FF] text-[#00F5FF] hover:bg-[#00F5FF]/20">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-[#00F5FF] text-[#00F5FF] hover:bg-[#00F5FF]/20"
+                  >
                     Log in
                   </Button>
                 </Link>
@@ -161,16 +188,20 @@ const Header: React.FC = () => {
               <>
                 <div className="px-4 py-3 border-b border-[#3A1A7E]">
                   <div className="flex items-center">
-                    <Avatar 
-                      src={currentUser.avatar} 
-                      alt={currentUser.name} 
-                      size="sm" 
-                      fallback={currentUser.name} 
+                    <Avatar
+                      src={currentUser.avatar}
+                      alt={currentUser.name}
+                      size="sm"
+                      fallback={currentUser.name}
                       className="mr-2"
                     />
                     <div>
-                      <div className="text-sm font-medium text-white">{currentUser.name}</div>
-                      <div className="text-xs text-gray-300">{currentUser.email}</div>
+                      <div className="text-sm font-medium text-white">
+                        {currentUser.name}
+                      </div>
+                      <div className="text-xs text-gray-300">
+                        {currentUser.email}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -178,34 +209,34 @@ const Header: React.FC = () => {
                 <Link
                   to="/dashboard"
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive('/dashboard')
-                      ? 'bg-[#3A1A7E] text-[#00F5FF]'
-                      : 'text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]'
+                    isActive("/dashboard")
+                      ? "bg-[#3A1A7E] text-[#00F5FF]"
+                      : "text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]"
                   }`}
                   onClick={toggleMenu}
                 >
                   Dashboard
                 </Link>
-                {currentUser.role === 'business' && (
+                {currentUser.role === "business" && (
                   <Link
                     to="/find-influencers"
                     className={`block px-3 py-2 rounded-md text-base font-medium ${
-                      isActive('/find-influencers')
-                        ? 'bg-[#3A1A7E] text-[#00F5FF]'
-                        : 'text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]'
+                      isActive("/find-influencers")
+                        ? "bg-[#3A1A7E] text-[#00F5FF]"
+                        : "text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]"
                     }`}
                     onClick={toggleMenu}
                   >
                     Find Influencers
                   </Link>
                 )}
-                {currentUser.role === 'influencer' && (
+                {currentUser.role === "influencer" && (
                   <Link
                     to="/opportunities"
                     className={`block px-3 py-2 rounded-md text-base font-medium ${
-                      isActive('/opportunities')
-                        ? 'bg-[#3A1A7E] text-[#00F5FF]'
-                        : 'text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]'
+                      isActive("/opportunities")
+                        ? "bg-[#3A1A7E] text-[#00F5FF]"
+                        : "text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]"
                     }`}
                     onClick={toggleMenu}
                   >
@@ -215,9 +246,9 @@ const Header: React.FC = () => {
                 <Link
                   to="/matches"
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive('/matches')
-                      ? 'bg-[#3A1A7E] text-[#00F5FF]'
-                      : 'text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]'
+                    isActive("/matches")
+                      ? "bg-[#3A1A7E] text-[#00F5FF]"
+                      : "text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]"
                   }`}
                   onClick={toggleMenu}
                 >
@@ -226,9 +257,9 @@ const Header: React.FC = () => {
                 <Link
                   to="/analytics"
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive('/analytics')
-                      ? 'bg-[#3A1A7E] text-[#00F5FF]'
-                      : 'text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]'
+                    isActive("/analytics")
+                      ? "bg-[#3A1A7E] text-[#00F5FF]"
+                      : "text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]"
                   }`}
                   onClick={toggleMenu}
                 >
@@ -237,9 +268,9 @@ const Header: React.FC = () => {
                 <Link
                   to="/profile"
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive('/profile')
-                      ? 'bg-[#3A1A7E] text-[#00F5FF]'
-                      : 'text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]'
+                    isActive("/profile")
+                      ? "bg-[#3A1A7E] text-[#00F5FF]"
+                      : "text-white hover:bg-[#3A1A7E] hover:text-[#00F5FF]"
                   }`}
                   onClick={toggleMenu}
                 >
@@ -276,6 +307,12 @@ const Header: React.FC = () => {
           </div>
         </div>
       )}
+
+<NotificationsPanel
+        isOpen={isNotificationsOpen}
+        onClose={() => setIsNotificationsOpen(false)}
+        influencerId="inf1"
+      />
     </header>
   );
 };

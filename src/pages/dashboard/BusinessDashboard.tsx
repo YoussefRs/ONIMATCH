@@ -7,7 +7,8 @@ import Avatar from '../../components/ui/Avatar';
 import Badge from '../../components/ui/Badge';
 import { mockInfluencerProfiles, mockMatches, mockAnalyticsData } from '../../data/mockData';
 import { Search, MessageSquare, Users, Target, TrendingUp, Bell, ChevronRight } from 'lucide-react';
-import { BusinessProfile, InfluencerProfile } from '../../types';
+import { BusinessProfile } from '../../types';
+import { InfluencerProfile } from '../../types/influencer';
 
 const BusinessDashboard: React.FC = () => {
   const { currentUser } = useAuth();

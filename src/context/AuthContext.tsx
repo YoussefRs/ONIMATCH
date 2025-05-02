@@ -71,6 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         name,
         role,
         createdAt: new Date(),
+        
       };
       
       // Simulate network delay
